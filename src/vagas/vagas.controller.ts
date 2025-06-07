@@ -3,6 +3,7 @@ import { VagasService } from './vagas.service';
 import { CreateVagaDTO } from './dto/create-vaga.dto';
 import { UpdateVagaDto } from './dto/update-vaga.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { Public } from 'src/common/decorators/public.decorator';
 
 @Controller('vagas')
 export class VagasController {
@@ -14,10 +15,12 @@ export class VagasController {
         const userID = req.user.userId
         return this.vagasService.create(data, userID)
     }
+    @Public()
     @Get()
     findAll() {
         return this.vagasService.findAll()
     }
+    @Public()
     @Get(`/:id`)
     findById(@Param('id') id: string) {
         return this.vagasService.findOne(id)

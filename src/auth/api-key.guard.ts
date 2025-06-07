@@ -1,15 +1,22 @@
 import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
+import { Reflector } from "@nestjs/core";
 import { compareSync } from "bcryptjs";
+import { IS_PUBLIC_KEY } from "src/common/decorators/public.decorator";
 
 @Injectable()
 export class ApiKeyGuard implements CanActivate {
-    constructor(private configService: ConfigService) { }
+    constructor(private configService: ConfigService, private reflector: Reflector) { }
 
     canActivate(context: ExecutionContext): boolean {
 
         const request = context.switchToHttp().getRequest();
         const apiKey = request.headers['key'];
+
+        const isPublic = this.reflector.get<boolean>(IS_PUBLIC_KEY, context.getHandler())
+        if (isPublic) {
+            return true;
+        }
 
         if (!apiKey) {
             throw new UnauthorizedException('Chave API não fornecida');

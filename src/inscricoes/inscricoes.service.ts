@@ -10,6 +10,10 @@ export class InscricoesService {
     async create(data: CreateInscricaoDto) {
         return this.prisma.inscricao.create({ data })
     }
+    async createCandidato(cv_path: string) {
+        return this.prisma.candidato.create({ data: { cv_path } })
+    }
+
     async findAll() {
         return this.prisma.inscricao.findMany({ include: { vaga: true, candidato: true } })
     }

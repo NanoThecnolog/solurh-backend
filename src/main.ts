@@ -1,6 +1,8 @@
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import * as express from 'express'
+import { join } from 'path';
 
 async function bootstrap() {
   const port = process.env.PORT || 4731
@@ -15,6 +17,9 @@ async function bootstrap() {
     allowedHeaders: ['Content-Type', 'Authorization', 'key', 'Accept'],
     credentials: true,
   })
+
+  app.use('/uploads', express.static(join(__dirname, '..', 'uploads')))
+
 
   await app.listen(port);
   console.log(`Servidor rodando na porta ${port}`)

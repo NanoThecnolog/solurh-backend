@@ -22,6 +22,9 @@ import { SuccessResponseInterceptor } from './common/interceptors/interceptors.i
 import { AllExceptionsFilter } from './common/interceptors/exception.filter';
 import { ConfigModule } from '@nestjs/config';
 import { ApiKeyGuard } from './auth/api-key.guard';
+import { UploadService } from './upload/upload.service';
+import { UploadModule } from './upload/upload.module';
+import { UploadController } from './upload/upload.controller';
 
 @Module({
   imports: [VagasModule, CandidatosModule, MensagensModule, InscricoesModule, UserModule,
@@ -29,8 +32,9 @@ import { ApiKeyGuard } from './auth/api-key.guard';
       isGlobal: true,
     }),
     AuthModule,
+    UploadModule,
   ],
-  controllers: [AppController, VagasController, CandidatosController, MensagensController, InscricoesController],
+  controllers: [AppController, VagasController, CandidatosController, MensagensController, InscricoesController, UploadController],
   providers: [
     AppService,
     VagasService,
@@ -53,7 +57,8 @@ import { ApiKeyGuard } from './auth/api-key.guard';
     {
       provide: APP_GUARD,
       useClass: ApiKeyGuard,
-    }
+    },
+    UploadService
   ],
 })
 export class AppModule { }
