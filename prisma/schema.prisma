@@ -57,7 +57,7 @@ model Mensage {
 model Inscricao {
   id          String    @id @default(uuid())
   vagaId      String
-  vaga        Vaga      @relation(fields: [vagaId], references: [id])
+  vaga        Vaga      @relation(fields: [vagaId], references: [id], onDelete: Cascade)
   candidatoId String
   candidato   Candidato @relation(fields: [candidatoId], references: [id])
   createdAt   DateTime  @default(now())

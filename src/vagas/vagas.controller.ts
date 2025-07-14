@@ -33,6 +33,7 @@ export class VagasController {
     @UseGuards(JwtAuthGuard)
     @Delete('/:id')
     removeVaga(@Param('id') id: string) {
+        //console.log(`id da vaga ${id}`)
         return this.vagasService.remove(id)
     }
 }

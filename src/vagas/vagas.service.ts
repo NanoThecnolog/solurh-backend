@@ -36,7 +36,15 @@ export class VagasService {
         return this.prisma.vaga.update({ where: { id }, data })
     }
     async remove(id: string) {
-        await this.findOne(id)
-        return this.prisma.vaga.delete({ where: { id } })
+        try {
+            const vaga = await this.findOne(id)
+            console.log("vaga no service findOne", vaga)
+            const remover = await this.prisma.vaga.delete({ where: { id: id } })
+            console.log("resultado da vaga removida", remover)
+            return remover
+        } catch (err) {
+            console.log("erro no serviço remove", err)
+        }
+
     }
 }
