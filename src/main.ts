@@ -3,6 +3,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import * as express from 'express'
 import { join } from 'path';
+import { allowedOrigins } from './common/utils/variables';
 
 async function bootstrap() {
   const port = process.env.PORT || 4731
@@ -12,10 +13,15 @@ async function bootstrap() {
   if (!secret) throw new Error('Secret not found')
 
   app.enableCors({
-    origin: ['http://localhost:4000', 'https://solurh.pro'],
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) callback(null, true)
+      else callback(new Error('Not allowed by ADMIN ERIC CORS'))
+    },
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'key', 'Accept'],
+    exposedHeaders: ['Content-Disposition'],
     credentials: true,
+    maxAge: 86400,
   })
 
   app.use('/uploads', express.static(join(__dirname, '..', 'uploads')))
