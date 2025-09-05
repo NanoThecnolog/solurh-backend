@@ -26,8 +26,16 @@ import { UploadService } from './upload/upload.service';
 import { UploadModule } from './upload/upload.module';
 import { UploadController } from './upload/upload.controller';
 
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
+
 @Module({
-  imports: [VagasModule, CandidatosModule, MensagensModule, InscricoesModule, UserModule,
+  imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'uploads'),
+      serveRoot: '/uploads',
+    }),
+    VagasModule, CandidatosModule, MensagensModule, InscricoesModule, UserModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
