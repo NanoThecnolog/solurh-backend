@@ -4,7 +4,7 @@ import { InscricoesService } from './inscricoes.service';
 import { InscricoesController } from './inscricoes.controller';
 
 @Module({
-    //providers: [PrismaService, InscricoesService],
-    //controllers: [InscricoesController]
+  //providers: [PrismaService, InscricoesService],
+  //controllers: [InscricoesController]
 })
-export class InscricoesModule { }
+export class InscricoesModule {}
